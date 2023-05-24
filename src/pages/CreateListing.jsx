@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Spinner from './components/Spinner';
+import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from 'firebase/auth';
@@ -146,6 +146,7 @@ export default function CreateListing() {
             imgUrls,
             geolocation,
             timestamp: serverTimestamp(),
+            userRef: auth.currentUser.uid,
         };
         delete formDataCopy.images;
         !formDataCopy.offer && delete formDataCopy.discountedPrice;
