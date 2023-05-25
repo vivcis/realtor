@@ -1,5 +1,5 @@
 import { getAuth, updateProfile } from 'firebase/auth';
-import { collection, doc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -65,6 +65,19 @@ export default function Profile() {
     }
     fetchUserListings();
   }, [auth.currentUser.uid]);
+  async function onDelete(listingID){
+    if(window.confirm("are you sure you want to delete?")){
+      await deleteDoc(doc(db, "listings", listingID))
+      const updatedListings = listings.filter(
+        (listing) => listing.id !== listingID
+      );
+      setListings(updatedListings)
+      toast.success("Successfully deleted the listing");
+    }
+  }
+  function onEdit(listingID){
+    navigate(`/edit-listing/${listingID}`);
+  }
   return (
     <>
       <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
@@ -116,6 +129,8 @@ export default function Profile() {
                 key={listing.id} 
                 id={listing.id} 
                 listing={listing.data}
+                onDelete={()=>onDelete(listing.id)}
+                onEdit={()=>onEdit(listing.id)}
               />
             ))}
           </ul>
