@@ -1,3 +1,4 @@
+import React from 'react';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
